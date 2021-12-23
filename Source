@@ -1,4 +1,4 @@
--- Settings:
+
 local Settings = {
     Offsets = {
         ["FarRange"] = -0.9;
@@ -31,8 +31,8 @@ local FOVCircle = Drawing.new("Circle");
 FOVCircle.Radius = Settings.Visuals.FOV;
 FOVCircle.Visible = true;
 FOVCircle.Color = Settings.Visuals.Color;
-FOVCircle.NumSides = 2;
-FOVCircle.Thickness = 1;
+FOVCircle.NumSides = 0.5;
+FOVCircle.Thickness = 0.5;
 
 -- Closest Player:
 function GetClosestPlayerToCursor(MaxDistance)
@@ -97,7 +97,4 @@ RunService.RenderStepped:Connect(function()
             Camera.CFrame = CFrame.new(Camera.CFrame.p, Offset.p);
         end;
     end;
-
-    -- FOV Circle:
-    FOVCircle.Position = UserInputService:GetMouseLocation();
 end);
