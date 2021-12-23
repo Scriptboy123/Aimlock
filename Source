@@ -2,8 +2,8 @@
 local Settings = {
     Offsets = {
         ["FarRange"] = -0.9;
-        ["CloseRange"] = 0.6;
-        ["Prediction"] = 1,5;
+        ["CloseRange"] = -0.9;
+        ["Prediction"] = 6.5;
     };
     Visuals = {
         ["FOV"] = 56;
