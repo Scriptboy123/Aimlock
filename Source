@@ -6,12 +6,12 @@ local Settings = {
         ["Prediction"] = 0.4;
     };
     Visuals = {
-        ["FOV"] = 126;
+        ["FOV"] = 0;
         ["Color"] = Color3.fromRGB(255, 255, 255);
     };
     ["AimPart"] = "UpperTorso";
     ["FarRangeKeybind"] = Enum.KeyCode.Q;
-    ["CloseRangeKeybind"] = Enum.KeyCode.Q;
+    ["CloseRangeKeybind"] = Enum.KeyCode.Z;
 }
 
 -- States:
