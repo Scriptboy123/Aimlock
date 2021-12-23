@@ -6,8 +6,8 @@ local Settings = {
         ["Prediction"] = 0.4;
     };
     Visuals = {
-        ["FOV"] = 7;
-        ["Color"] = Color3.fromRGB(255, 255, 255);
+        ["FOV"] = 56;
+        ["Color"] = Color3.fromRGB(255, 126, 76);
     };
     ["AimPart"] = "UpperTorso";
     ["FarRangeKeybind"] = Enum.KeyCode.Q;
@@ -31,7 +31,7 @@ local FOVCircle = Drawing.new("Circle");
 FOVCircle.Radius = Settings.Visuals.FOV;
 FOVCircle.Visible = true;
 FOVCircle.Color = Settings.Visuals.Color;
-FOVCircle.NumSides = 0.9;
+FOVCircle.NumSides = 2;
 FOVCircle.Thickness = 1;
 
 -- Closest Player:
