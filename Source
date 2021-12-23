@@ -31,8 +31,8 @@ local FOVCircle = Drawing.new("Circle");
 FOVCircle.Radius = Settings.Visuals.FOV;
 FOVCircle.Visible = true;
 FOVCircle.Color = Settings.Visuals.Color;
-FOVCircle.NumSides = 25;
-FOVCircle.Thickness = 1;
+FOVCircle.NumSides = 0;
+FOVCircle.Thickness = 0;
 
 -- Closest Player:
 function GetClosestPlayerToCursor(MaxDistance)
