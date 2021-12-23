@@ -6,7 +6,7 @@ local Settings = {
         ["Prediction"] = 6.5;
     };
     Visuals = {
-        ["FOV"] = 56;
+        ["FOV"] = false;
         ["Color"] = Color3.fromRGB(255, 126, 76);
     };
     ["AimPart"] = "UpperTorso";
