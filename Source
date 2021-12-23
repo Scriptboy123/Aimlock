@@ -1,0 +1,103 @@
+-- Settings:
+local Settings = {
+    Offsets = {
+        ["FarRange"] = 0.7;
+        ["CloseRange"] = 0.6;
+        ["Prediction"] = 0.4;
+    };
+    Visuals = {
+        ["FOV"] = 126;
+        ["Color"] = Color3.fromRGB(255, 255, 255);
+    };
+    ["AimPart"] = "UpperTorso";
+    ["FarRangeKeybind"] = Enum.KeyCode.Q;
+    ["CloseRangeKeybind"] = Enum.KeyCode.Q;
+}
+
+-- States:
+local States = {CloseRangeAiming = false, FarRangeAiming = false};
+
+-- Variables:
+local Players = game:GetService("Players");
+local RunService = game:GetService("RunService");
+local UserInputService = game:GetService("UserInputService");
+local LocalPlayer = Players.LocalPlayer;
+local Camera = workspace.CurrentCamera;
+local Mouse = LocalPlayer.GetMouse(LocalPlayer);
+local Target;
+
+-- FOV Circle:
+local FOVCircle = Drawing.new("Circle");
+FOVCircle.Radius = Settings.Visuals.FOV;
+FOVCircle.Visible = true;
+FOVCircle.Color = Settings.Visuals.Color;
+FOVCircle.NumSides = 25;
+FOVCircle.Thickness = 1;
+
+-- Closest Player:
+function GetClosestPlayerToCursor(MaxDistance)
+    local Max, Closest = MaxDistance or math.huge;
+
+    for i,v in pairs(Players.GetPlayers(Players)) do
+        if v ~= LocalPlayer then
+            if v.Character and LocalPlayer.Character then
+                local VPrimaryPart = v.Character.PrimaryPart;
+                if VPrimaryPart then
+                    local Pos, Visible = Camera.WorldToScreenPoint(Camera, VPrimaryPart.Position)
+                    local Distance = (Vector2.new(Mouse.X, Mouse.Y) - Vector2.new(Pos.X, Pos.Y)).Magnitude;
+                    if Visible and Distance < Max then
+                        Max = Distance;
+                        Closest = v;
+                    end;
+                end;
+            end;
+        end;
+    end;
+
+    return Closest;
+end;
+
+-- Key Pressed:
+UserInputService.InputBegan:Connect(function(INPUT, GAMEPROCESSED)
+    if GAMEPROCESSED then
+        return
+    end;
+
+    -- Close Range:
+    if INPUT.UserInputType == Enum.UserInputType.Keyboard and INPUT.KeyCode == Settings.CloseRangeKeybind then
+        States.CloseRangeAiming = not States.CloseRangeAiming;
+        Target = GetClosestPlayerToCursor(Settings.Visuals.FOV);
+    end;
+
+    -- Far Range:
+    if INPUT.UserInputType == Enum.UserInputType.Keyboard and INPUT.KeyCode == Settings.FarRangeKeybind then
+        States.FarRangeAiming = not States.FarRangeAiming;
+        Target = GetClosestPlayerToCursor(Settings.Visuals.FOV);
+    end;
+end);
+
+-- Camera Lock:
+RunService.RenderStepped:Connect(function()
+
+    -- AimLock:
+    if Target then
+        if not Target.Character then -- Target character does not exist
+            Target = nil;
+        end
+        local Pos, Visible = Camera.WorldToScreenPoint(Camera, Target.Character[Settings.AimPart].Position);
+        if not Visible then -- Target is not on screen
+            Target = nil;
+        end
+        if States.CloseRangeAiming then -- Close Range
+            local Offset = Target.Character[Settings.AimPart].CFrame * CFrame.new(0, Settings.Offsets.CloseRange, -Settings.Offsets.Prediction);
+            Camera.CFrame = CFrame.new(Camera.CFrame.p, Offset.p);
+        end;
+        if States.FarRangeAiming then -- Far Range
+            local Offset = Target.Character[Settings.AimPart].CFrame * CFrame.new(0, Settings.Offsets.FarRange, -Settings.Offsets.Prediction);
+            Camera.CFrame = CFrame.new(Camera.CFrame.p, Offset.p);
+        end;
+    end;
+
+    -- FOV Circle:
+    FOVCircle.Position = UserInputService:GetMouseLocation();
+end);
