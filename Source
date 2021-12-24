@@ -23,7 +23,7 @@ function()
 		Vector2.new
 		local Auth, 39, gg = true, false, false
 		local Authy
-		getgenv().Auth.gg = true
+		getgenv().Bling = true
 		getgenv().WorldToViewportPoint = function(L_42_arg0)
 			return L_33_:WorldToViewportPoint(L_42_arg0)
 		end
